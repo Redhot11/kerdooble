@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kerdooble</title>
+    <title>Kerdooble Hub</title>
     <style>
         /* General Styles */
         body {
@@ -13,104 +13,150 @@
             margin: 0;
             padding: 0;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
             height: 100vh;
-        }
-
-        .container {
-            text-align: center;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            overflow: hidden;
         }
 
         h1 {
             font-size: 3rem;
-            margin-bottom: 20px;
+            margin: 20px 0;
             color: #fff;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
 
-        .buttons {
+        .tabs {
             display: flex;
-            flex-direction: column;
-            gap: 15px;
+            gap: 10px;
+            margin-bottom: 20px;
         }
 
-        .btn {
+        .tab-button {
             background: rgba(255, 255, 255, 0.2);
             border: none;
-            padding: 15px 30px;
-            font-size: 1.2rem;
+            padding: 10px 20px;
+            font-size: 1rem;
             color: #fff;
             border-radius: 8px;
             cursor: pointer;
             transition: background 0.3s ease, transform 0.2s ease;
-            text-decoration: none;
         }
 
-        .btn:hover {
+        .tab-button:hover {
             background: rgba(255, 255, 255, 0.3);
             transform: translateY(-3px);
         }
 
-        .btn:active {
+        .tab-button:active {
+            transform: translateY(0);
+        }
+
+        .tab-button.active {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .iframe-container {
+            width: 90%;
+            height: 70vh;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            background: rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .fullscreen-toggle {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            padding: 10px 20px;
+            font-size: 1rem;
+            color: #fff;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        .fullscreen-toggle:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+        }
+
+        .fullscreen-toggle:active {
             transform: translateY(0);
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Kerdooble</h1>
-        <div class="buttons" id="buttons-container">
-            <!-- Buttons will be dynamically loaded here -->
-            <p>Loading content...</p>
-        </div>
+    <h1>Kerdooble Hub</h1>
+    <div class="tabs">
+        <button class="tab-button active" onclick="showTab('revision')">Revision</button>
+        <button class="tab-button" onclick="showTab('soundboard')">Soundboard</button>
+        <button class="tab-button" onclick="showTab('homework-help')">Homework Help</button>
+    </div>
+    <div class="iframe-container">
+        <iframe id="revision" src="" title="Revision"></iframe>
+        <iframe id="soundboard" src="" title="Soundboard" style="display: none;"></iframe>
+        <iframe id="homework-help" src="" title="Homework Help" style="display: none;"></iframe>
+        <button class="fullscreen-toggle" onclick="toggleFullscreen()">Fullscreen</button>
     </div>
 
     <script>
-        // Function to dynamically load buttons
-        function loadButtons() {
-            const buttonsContainer = document.getElementById("buttons-container");
+        // Base64-encoded URLs
+        const revisionUrl = atob("aHR0cHM6Ly91bmJsb2NrZWRnYW1lczc2Lmlv");
+        const soundboardUrl = atob("aHR0cHM6Ly9teWluc3RhbnRzLmNvbS8=");
+        const homeworkHelpUrl = atob("aHR0cHM6Ly9jaGF0Lm9wZW5haS5jb20v");
 
-            // Clear the loading message
-            buttonsContainer.innerHTML = "";
+        // Set iframe sources
+        document.getElementById('revision').src = revisionUrl;
+        document.getElementById('soundboard').src = soundboardUrl;
+        document.getElementById('homework-help').src = homeworkHelpUrl;
 
-            // Create buttons dynamically
-            const buttons = [
-                { text: "Revision", onClick: () => redirectToGame() },
-                { text: "Soundboard", onClick: () => redirectToSoundboard() },
-                { text: "Homework Help", onClick: () => redirectToChatGPT() },
-            ];
-
-            buttons.forEach(button => {
-                const btn = document.createElement("button");
-                btn.className = "btn";
-                btn.innerText = button.text;
-                btn.onclick = button.onClick;
-                buttonsContainer.appendChild(btn);
+        // Function to switch between tabs
+        function showTab(tabName) {
+            // Hide all iframes
+            document.querySelectorAll('.iframe-container iframe').forEach(iframe => {
+                iframe.style.display = 'none';
             });
+
+            // Show the selected iframe
+            document.getElementById(tabName).style.display = 'block';
+
+            // Update active tab button
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active');
+            });
+            document.querySelector(`[onclick="showTab('${tabName}')"]`).classList.add('active');
         }
 
-        // Obfuscated URLs
-        function redirectToGame() {
-            window.location.href = atob("aHR0cHM6Ly91bmJsb2NrZWRnYW1lczc2Lmlv");
+        // Fullscreen toggle
+        function toggleFullscreen() {
+            const iframeContainer = document.querySelector('.iframe-container');
+            if (!document.fullscreenElement) {
+                iframeContainer.requestFullscreen().catch(err => {
+                    alert(`Error attempting to enable fullscreen: ${err.message}`);
+                });
+            } else {
+                document.exitFullscreen();
+            }
         }
 
-        function redirectToSoundboard() {
-            window.location.href = atob("aHR0cHM6Ly9teWluc3RhbnRzLmNvbS8=");
-        }
-
-        function redirectToChatGPT() {
-            window.location.href = atob("aHR0cHM6Ly9jaGF0Lm9wZW5haS5jb20v");
-        }
-
-        // Load buttons after a short delay (simulating dynamic loading)
-        setTimeout(loadButtons, 1000); // 1-second delay
+        // Killswitch functionality (Ctrl + L)
+        document.addEventListener('keydown', function (event) {
+            if (event.ctrlKey && event.key === 'l') {
+                // Redirect to Dr Frost Maths login page
+                window.location.href = 'https://www.drfrostmaths.com';
+            }
+        });
     </script>
 </body>
 </html>
