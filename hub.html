@@ -26,36 +26,6 @@
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
 
-        .tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .tab-button {
-            background: rgba(255, 255, 255, 0.2);
-            border: none;
-            padding: 10px 20px;
-            font-size: 1rem;
-            color: #fff;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background 0.3s ease, transform 0.2s ease;
-        }
-
-        .tab-button:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: translateY(-3px);
-        }
-
-        .tab-button:active {
-            transform: translateY(0);
-        }
-
-        .tab-button.active {
-            background: rgba(255, 255, 255, 0.4);
-        }
-
         .iframe-container {
             width: 90%;
             height: 70vh;
@@ -70,7 +40,7 @@
             width: 100%;
             height: 100%;
             border: none;
-            display: none; /* Hide iframes by default */
+            display: none; /* Hide iframe by default */
         }
 
         .fullscreen-toggle {
@@ -99,48 +69,18 @@
 </head>
 <body>
     <h1>Kerdooble Hub</h1>
-    <div class="tabs">
-        <button class="tab-button active" onclick="showTab('revision')">Revision</button>
-        <button class="tab-button" onclick="showTab('soundboard')">Soundboard</button>
-        <button class="tab-button" onclick="showTab('homework-help')">Homework Help</button>
-    </div>
     <div class="iframe-container">
-        <iframe id="revision" title="Revision"></iframe>
         <iframe id="soundboard" title="Soundboard"></iframe>
-        <iframe id="homework-help" title="Homework Help"></iframe>
         <button class="fullscreen-toggle" onclick="toggleFullscreen()">Fullscreen</button>
     </div>
 
     <script>
-        // Base64-encoded URLs
-        const revisionUrl = atob("aHR0cHM6Ly91bmJsb2NrZWRnYW1lczc2Lmlv");
+        // Base64-encoded URL for Soundboard
         const soundboardUrl = atob("aHR0cHM6Ly9teWluc3RhbnRzLmNvbS8=");
-        const homeworkHelpUrl = atob("aHR0cHM6Ly9jaGF0Lm9wZW5haS5jb20v");
 
-        // Function to switch between tabs and load iframes on demand
-        function showTab(tabName) {
-            // Hide all iframes
-            document.querySelectorAll('.iframe-container iframe').forEach(iframe => {
-                iframe.style.display = 'none';
-            });
-
-            // Show the selected iframe and load its content if not already loaded
-            const iframe = document.getElementById(tabName);
-            if (!iframe.src) {
-                iframe.src = {
-                    'revision': revisionUrl,
-                    'soundboard': soundboardUrl,
-                    'homework-help': homeworkHelpUrl
-                }[tabName];
-            }
-            iframe.style.display = 'block';
-
-            // Update active tab button
-            document.querySelectorAll('.tab-button').forEach(button => {
-                button.classList.remove('active');
-            });
-            document.querySelector(`[onclick="showTab('${tabName}')"]`).classList.add('active');
-        }
+        // Load Soundboard iframe when the page loads
+        document.getElementById('soundboard').src = soundboardUrl;
+        document.getElementById('soundboard').style.display = 'block';
 
         // Fullscreen toggle
         function toggleFullscreen() {
@@ -161,9 +101,6 @@
                 window.location.href = 'https://www.drfrostmaths.com';
             }
         });
-
-        // Load the first tab by default
-        showTab('revision');
     </script>
 </body>
 </html>
