@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kerdooble</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            color: #fff;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Kerdooble</h1>
+        <div class="buttons" id="buttons-container">
+            <!-- Buttons will be dynamically loaded here -->
+            <p>Loading content...</p>
+        </div>
+    </div>
+
+    <script>
+        // Function to dynamically load buttons
+        function loadButtons() {
+            const buttonsContainer = document.getElementById("buttons-container");
+
+            // Clear the loading message
+            buttonsContainer.innerHTML = "";
+
+            // Create buttons dynamically
+            const buttons = [
+                { text: "Revision", onClick: () => redirectToGame() },
+                { text: "Soundboard", onClick: () => redirectToSoundboard() },
+                { text: "Homework Help", onClick: () => redirectToChatGPT() },
+            ];
+
+            buttons.forEach(button => {
+                const btn = document.createElement("button");
+                btn.className = "btn";
+                btn.innerText = button.text;
+                btn.onclick = button.onClick;
+                buttonsContainer.appendChild(btn);
+            });
+        }
+
+        // Obfuscated URLs
+        function redirectToGame() {
+            window.location.href = atob("aHR0cHM6Ly91bmJsb2NrZWRnYW1lczc2Lmlv");
+        }
+
+        function redirectToSoundboard() {
+            window.location.href = atob("aHR0cHM6Ly9teWluc3RhbnRzLmNvbS8=");
+        }
+
+        function redirectToChatGPT() {
+            window.location.href = atob("aHR0cHM6Ly9jaGF0Lm9wZW5haS5jb20v");
+        }
+
+        // Load buttons after a short delay (simulating dynamic loading)
+        setTimeout(loadButtons, 1000); // 1-second delay
+    </script>
+</body>
+</html>
