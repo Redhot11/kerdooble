@@ -70,6 +70,7 @@
             width: 100%;
             height: 100%;
             border: none;
+            display: none; /* Hide iframes by default */
         }
 
         .fullscreen-toggle {
@@ -104,9 +105,9 @@
         <button class="tab-button" onclick="showTab('homework-help')">Homework Help</button>
     </div>
     <div class="iframe-container">
-        <iframe id="revision" src="" title="Revision"></iframe>
-        <iframe id="soundboard" src="" title="Soundboard" style="display: none;"></iframe>
-        <iframe id="homework-help" src="" title="Homework Help" style="display: none;"></iframe>
+        <iframe id="revision" title="Revision"></iframe>
+        <iframe id="soundboard" title="Soundboard"></iframe>
+        <iframe id="homework-help" title="Homework Help"></iframe>
         <button class="fullscreen-toggle" onclick="toggleFullscreen()">Fullscreen</button>
     </div>
 
@@ -116,20 +117,23 @@
         const soundboardUrl = atob("aHR0cHM6Ly9teWluc3RhbnRzLmNvbS8=");
         const homeworkHelpUrl = atob("aHR0cHM6Ly9jaGF0Lm9wZW5haS5jb20v");
 
-        // Set iframe sources
-        document.getElementById('revision').src = revisionUrl;
-        document.getElementById('soundboard').src = soundboardUrl;
-        document.getElementById('homework-help').src = homeworkHelpUrl;
-
-        // Function to switch between tabs
+        // Function to switch between tabs and load iframes on demand
         function showTab(tabName) {
             // Hide all iframes
             document.querySelectorAll('.iframe-container iframe').forEach(iframe => {
                 iframe.style.display = 'none';
             });
 
-            // Show the selected iframe
-            document.getElementById(tabName).style.display = 'block';
+            // Show the selected iframe and load its content if not already loaded
+            const iframe = document.getElementById(tabName);
+            if (!iframe.src) {
+                iframe.src = {
+                    'revision': revisionUrl,
+                    'soundboard': soundboardUrl,
+                    'homework-help': homeworkHelpUrl
+                }[tabName];
+            }
+            iframe.style.display = 'block';
 
             // Update active tab button
             document.querySelectorAll('.tab-button').forEach(button => {
@@ -153,10 +157,13 @@
         // Killswitch functionality (Ctrl + L)
         document.addEventListener('keydown', function (event) {
             if (event.ctrlKey && event.key === 'l') {
-                // Redirect to Dr Frost Maths login page
+                // Redirect to Dr Frost Maths login page immediately
                 window.location.href = 'https://www.drfrostmaths.com';
             }
         });
+
+        // Load the first tab by default
+        showTab('revision');
     </script>
 </body>
 </html>
