@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kerdooble - Login</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .login-box {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .login-box input {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            padding: 15px;
+            font-size: 1rem;
+            color: #fff;
+            border-radius: 8px;
+            outline: none;
+        }
+
+        .login-box input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .login-box button {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            color: #fff;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        .login-box button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+        }
+
+        .login-box button:active {
+            transform: translateY(0);
+        }
+
+        .error-message {
+            color: rgba(255, 99, 71, 0.8);
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Kerdooble</h1>
+        <div class="login-box">
+            <input type="text" id="username" placeholder="Username">
+            <input type="password" id="password" placeholder="Password">
+            <button onclick="checkCredentials()">Submit</button>
+            <p id="error" class="error-message"></p>
+        </div>
+    </div>
+
+    <script>
+        // Correct username and password
+        const correctUsername = "1234";
+        const correctPassword = "1234";
+
+        // Check credentials
+        function checkCredentials() {
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+
+            if (username === correctUsername && password === correctPassword) {
+                // Redirect to the Kerdooble Hub
+                window.location.href = "kerdooble.html";
+            } else {
+                // Show error message and redirect to BBC Bitesize
+                document.getElementById("error").innerText = "Incorrect username or password.";
+                setTimeout(() => {
+                    window.location.href = "https://www.bbc.co.uk/bitesize";
+                }, 1000); // Redirect after 1 second
+            }
+        }
+    </script>
+</body>
+</html>
